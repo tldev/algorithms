@@ -1,7 +1,4 @@
 import edu.princeton.cs.algs4.QuickFindUF;
-import edu.princeton.cs.algs4.StdOut;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by tjohnell on 5/31/17.
