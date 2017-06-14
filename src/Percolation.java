@@ -1,13 +1,14 @@
 import edu.princeton.cs.algs4.QuickFindUF;
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 /**
  * Created by tjohnell on 5/31/17.
  */
 public class Percolation {
     private int n;
-    private QuickFindUF qf;
+    private WeightedQuickUnionUF qf;
     private int[][] grid;
-    private int num_open;
+    private int numOpen;
 
 
     public Percolation(int n) {
@@ -16,9 +17,9 @@ public class Percolation {
         }
 
         this.n = n;
-        this.num_open = 0;
+        this.numOpen = 0;
         this.grid = new int[n][n];
-        this.qf = new QuickFindUF(n * n + 2);
+        this.qf = new WeightedQuickUnionUF(n * n + 2);
         this.unionTopAndBottomRows();
     }
 
@@ -26,28 +27,28 @@ public class Percolation {
         validatePosition(row, col);
 
         openGrid(row, col);
-        this.num_open++;
+        this.numOpen++;
 
-        int current_index = this.gridToIndex(row, col);
+        int currentIndex = this.gridToIndex(row, col);
 
         // Union above
         if (row > 1 && this.isOpen(row - 1, col)) {
-            qf.union(current_index, this.gridToIndex(row - 1, col));
+            qf.union(currentIndex, this.gridToIndex(row - 1, col));
         }
 
         // Union right
         if (col < this.n && this.isOpen(row, col + 1)) {
-            qf.union(current_index, this.gridToIndex(row, col + 1));
+            qf.union(currentIndex, this.gridToIndex(row, col + 1));
         }
 
         // Union bottom
         if (row < this.n && this.isOpen(row + 1, col)) {
-            qf.union(current_index, this.gridToIndex(row + 1, col));
+            qf.union(currentIndex, this.gridToIndex(row + 1, col));
         }
 
         // Union left
         if (col > 1 && this.isOpen(row, col - 1)) {
-            qf.union(current_index, this.gridToIndex(row, col - 1));
+            qf.union(currentIndex, this.gridToIndex(row, col - 1));
         }
     }
 
@@ -64,7 +65,7 @@ public class Percolation {
     }
 
     public int numberOfOpenSites() {
-        return this.num_open;
+        return this.numOpen;
     }
 
     public boolean percolates() {

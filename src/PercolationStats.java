@@ -1,6 +1,6 @@
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
-import edu.princeton.cs.algs4.StdStats;;
+import edu.princeton.cs.algs4.StdStats;
 
 /**
  * Created by tjohnell on 6/1/17.
@@ -13,7 +13,6 @@ public class PercolationStats {
     private double stddev;
     private double confidenceLo;
     private double confidenceHi;
-    private double[] percs;
 
     // perform trials independent experiments on an n-by-n grid
     public PercolationStats(int n, int trials) {
@@ -65,11 +64,9 @@ public class PercolationStats {
             }
         }
 
-        this.percs = percs;
-
-        this.mean = StdStats.mean(this.percs);
-        this.stddev = StdStats.stddev(this.percs);
-        double diff = (1.96 * Math.sqrt(this.stddev))/(Math.sqrt(this.trials));
+        this.mean = StdStats.mean(percs);
+        this.stddev = StdStats.stddev(percs);
+        double diff = (1.96 * Math.sqrt(this.stddev)) / (Math.sqrt(this.trials));
         this.confidenceLo = this.mean - diff;
         this.confidenceHi = this.mean + diff;
     }
@@ -85,13 +82,13 @@ public class PercolationStats {
 
     // test client (described below)
     public static void main(String[] args) {
-        Integer n = Integer.parseInt(args[0]);
-        Integer T = Integer.parseInt(args[1]);
+        int n = Integer.parseInt(args[0]);
+        int t = Integer.parseInt(args[1]);
 
-        PercolationStats ps = new PercolationStats(n, T);
+        PercolationStats ps = new PercolationStats(n, t);
 
         StdOut.printf("mean                    = %f\n", ps.mean());
-        StdOut.printf("stdev                   = %f\n", ps.stddev);
+        StdOut.printf("stdev                   = %f\n", ps.stddev());
         StdOut.printf("95%% confidence interval = [%f, %f]", ps.confidenceLo(), ps.confidenceHi());
     }
 }
