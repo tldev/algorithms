@@ -6,7 +6,7 @@ import edu.princeton.cs.algs4.QuickFindUF;
 public class Percolation {
     private int n;
     private QuickFindUF qf;
-    public int[][] grid;
+    private int[][] grid;
     private int num_open;
 
 
