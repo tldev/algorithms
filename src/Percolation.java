@@ -1,4 +1,3 @@
-import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 /**
@@ -7,6 +6,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
     private int n;
     private WeightedQuickUnionUF qf;
+    private WeightedQuickUnionUF noBottomQf;
     private int[][] grid;
     private int numOpen;
 
@@ -20,6 +20,7 @@ public class Percolation {
         this.numOpen = 0;
         this.grid = new int[n][n];
         this.qf = new WeightedQuickUnionUF(n * n + 2);
+        this.noBottomQf = new WeightedQuickUnionUF(n * n + 1);
         this.unionTopAndBottomRows();
     }
 
@@ -34,21 +35,25 @@ public class Percolation {
         // Union above
         if (row > 1 && this.isOpen(row - 1, col)) {
             qf.union(currentIndex, this.gridToIndex(row - 1, col));
+            noBottomQf.union(currentIndex, this.gridToIndex(row - 1, col));
         }
 
         // Union right
         if (col < this.n && this.isOpen(row, col + 1)) {
             qf.union(currentIndex, this.gridToIndex(row, col + 1));
+            noBottomQf.union(currentIndex, this.gridToIndex(row, col + 1));
         }
 
         // Union bottom
         if (row < this.n && this.isOpen(row + 1, col)) {
             qf.union(currentIndex, this.gridToIndex(row + 1, col));
+            noBottomQf.union(currentIndex, this.gridToIndex(row + 1, col));
         }
 
         // Union left
         if (col > 1 && this.isOpen(row, col - 1)) {
             qf.union(currentIndex, this.gridToIndex(row, col - 1));
+            noBottomQf.union(currentIndex, this.gridToIndex(row, col - 1));
         }
     }
 
@@ -61,7 +66,7 @@ public class Percolation {
     public boolean isFull(int row, int col) {
         validatePosition(row, col);
 
-        return isOpen(row, col) && this.qf.connected(this.gridToIndex(row, col), this.topSiteIndex());
+        return isOpen(row, col) && this.noBottomQf.connected(this.gridToIndex(row, col), this.topSiteIndex());
     }
 
     public int numberOfOpenSites() {
@@ -69,6 +74,9 @@ public class Percolation {
     }
 
     public boolean percolates() {
+        if (n == 1) {
+            return isOpen(1,1);
+        }
         return qf.connected(this.topSiteIndex(), this.bottomSiteIndex());
     }
 
@@ -80,6 +88,7 @@ public class Percolation {
 
     private void unionTopAndBottomRows() {
         for (int i = 1; i <= this.n; i++) {
+            noBottomQf.union(gridToIndex(1, i), this.topSiteIndex());
             qf.union(gridToIndex(1, i), this.topSiteIndex());
             qf.union(gridToIndex(this.n, i), this.bottomSiteIndex());
         }
@@ -107,6 +116,6 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
-        Percolation p = new Percolation(100);
+
     }
 }
