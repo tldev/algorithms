@@ -1,4 +1,4 @@
-import edu.princeton.cs.algs4.QuickFindUF;
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 /**
@@ -61,7 +61,7 @@ public class Percolation {
     public boolean isFull(int row, int col) {
         validatePosition(row, col);
 
-        return this.qf.connected(this.gridToIndex(row, col), this.topSiteIndex());
+        return isOpen(row, col) && this.qf.connected(this.gridToIndex(row, col), this.topSiteIndex());
     }
 
     public int numberOfOpenSites() {
@@ -107,6 +107,6 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
-
+        Percolation p = new Percolation(100);
     }
 }
