@@ -8,7 +8,6 @@ import edu.princeton.cs.algs4.StdStats;;
 public class PercolationStats {
     private int n;
     private int gridSize;
-    private int[] randomIndexes;
     private int trials;
     private double mean;
     private double stddev;

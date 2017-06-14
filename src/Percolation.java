@@ -77,12 +77,6 @@ public class Percolation {
         }
     }
 
-    private void unionTopRow() {
-        for (int i = 1; i <= this.n; i++) {
-            this.open(1, i);
-        }
-    }
-
     private void unionTopAndBottomRows() {
         for (int i = 1; i <= this.n; i++) {
             qf.union(gridToIndex(1, i), this.topSiteIndex());
