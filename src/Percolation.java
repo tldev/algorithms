@@ -7,7 +7,7 @@ public class Percolation {
     private int n;
     private WeightedQuickUnionUF qf;
     private WeightedQuickUnionUF noBottomQf;
-    private int[][] grid;
+    private boolean[][] grid;
     private int numOpen;
 
 
@@ -18,7 +18,7 @@ public class Percolation {
 
         this.n = n;
         this.numOpen = 0;
-        this.grid = new int[n][n];
+        this.grid = new boolean[n][n];
         this.qf = new WeightedQuickUnionUF(n * n + 2);
         this.noBottomQf = new WeightedQuickUnionUF(n * n + 1);
         this.unionTopAndBottomRows();
@@ -26,6 +26,10 @@ public class Percolation {
 
     public void open(int row, int col) {
         validatePosition(row, col);
+
+        if (this.isGridOpen(row, col)) {
+            return;
+        }
 
         openGrid(row, col);
         this.numOpen++;
@@ -60,7 +64,7 @@ public class Percolation {
     public boolean isOpen(int row, int col) {
         validatePosition(row, col);
 
-        return isGridOpen(row, col) == 1;
+        return isGridOpen(row, col);
     }
 
     public boolean isFull(int row, int col) {
@@ -103,11 +107,10 @@ public class Percolation {
     }
 
     private void openGrid(int row, int col) {
-
-        this.grid[row - 1][col - 1] = 1;
+        this.grid[row - 1][col - 1] = true;
     }
 
-    private int isGridOpen(int row, int col) {
+    private boolean isGridOpen(int row, int col) {
         return this.grid[row - 1][col - 1];
     }
 
