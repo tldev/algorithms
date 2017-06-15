@@ -66,7 +66,7 @@ public class PercolationStats {
 
         this.mean = StdStats.mean(percs);
         this.stddev = StdStats.stddev(percs);
-        double diff = (1.96 * Math.sqrt(this.stddev)) / (Math.sqrt(this.trials));
+        double diff = (1.96 * this.stddev) / (Math.sqrt(this.trials));
         this.confidenceLo = this.mean - diff;
         this.confidenceHi = this.mean + diff;
     }

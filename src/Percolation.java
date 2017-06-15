@@ -75,7 +75,7 @@ public class Percolation {
 
     public boolean percolates() {
         if (n == 1) {
-            return isOpen(1,1);
+            return isOpen(1, 1);
         }
         return qf.connected(this.topSiteIndex(), this.bottomSiteIndex());
     }
