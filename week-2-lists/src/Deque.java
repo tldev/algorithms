@@ -97,6 +97,8 @@ public class Deque<Item> implements Iterable<Item> {
 
         if (previous != null) {
             previous.next = null;
+        } else {
+            first = null;
         }
 
         last = previous;
@@ -112,7 +114,7 @@ public class Deque<Item> implements Iterable<Item> {
 
             @Override
             public boolean hasNext() {
-                return current.next != null;
+                return current != null;
             }
 
             @Override
