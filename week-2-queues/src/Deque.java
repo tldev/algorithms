@@ -53,16 +53,16 @@ public class Deque<Item> implements Iterable<Item> {
             throw new java.lang.NullPointerException();
         }
 
-        Node new_last = new Node();
-        new_last.item = item;
+        Node newLast = new Node();
+        newLast.item = item;
 
         if (last != null) {
-            last.next = new_last;
+            last.next = newLast;
         } else {
-            first = new_last;
+            first = newLast;
         }
 
-        last = new_last;
+        last = newLast;
         size++;
     }
 
