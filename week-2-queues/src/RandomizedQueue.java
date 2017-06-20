@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
@@ -32,12 +33,19 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // add the item
     public void enqueue(Item item) {
+        if (item == null) {
+            throw new  java.lang.NullPointerException();
+        }
+
         if (tail == queue.length) {
             tail = 0;
         }
 
         queue[tail++] = item;
         ++size;
+
+        // So random, many wows
+        swap(tail - 1, randomIndex());
 
         // We need to up the capacity
         if (size > queue.length / 2.0) {
@@ -47,6 +55,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // remove and return a random item
     public Item dequeue() {
+        if (size == 0) {
+            throw new java.util.NoSuchElementException();
+        }
+
         Item item = queue[head];
         queue[head++] = null;
         --size;
@@ -64,48 +76,59 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // return (but do not remove) a random item
     public Item sample() {
-        return null;
+        if (size == 0) {
+            throw new java.util.NoSuchElementException();
+        }
+
+        return queue[randomIndex()];
     }
 
     // return an independent iterator over items in random order
     public Iterator<Item> iterator() {
         return new Iterator<Item>() {
+            int[] randomIndexes = StdRandom.permutation(size);
+            int current = 0;
+
             @Override
             public boolean hasNext() {
-                return false;
+                return current < size;
             }
 
             @Override
             public Item next() {
-                return null;
+                if (!hasNext()) {
+                    throw new java.util.NoSuchElementException();
+                }
+
+                return queue[(head + current++) % size];
             }
 
             @Override
             public void remove() {
-
+                throw new java.lang.UnsupportedOperationException();
             }
         };
     }
 
+    private int randomIndex() {
+        return (head + StdRandom.uniform(size)) % size;
+    }
+
+    private void swap(int i, int j) {
+        Item temp = queue[i];
+        queue[i] = queue[j];
+        queue[j] = temp;
+    }
+
     private void changeQueueSize(int newSize) {
         Item[] newQueue = createArray(newSize);
-        int j = 0;
-        if (head > tail) {
-            for(int i = head; i < queue.length; i++) {
-                newQueue[j++] = queue[i];
-            }
-            for(int i = 0; i < tail; i++) {
-                newQueue[j++] = queue[i];
-            }
-        } else {
-            for(int i = head; i < tail; i++) {
-                newQueue[j++] = queue[i];
-            }
+        for (int i = 0; i < size; i++) {
+            newQueue[i] = queue[(head + i) % queue.length];
         }
 
         queue = newQueue;
         head = 0;
-        tail = j;
+        tail = size;
     }
 
     private Item[] createArray(int size) {
