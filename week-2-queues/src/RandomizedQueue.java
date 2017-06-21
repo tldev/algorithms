@@ -123,8 +123,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         tail = size;
     }
 
-    private Item[] createArray(int size) {
-        return (Item[]) new Object[size];
+    private Item[] createArray(int max) {
+        return (Item[]) new Object[max];
     }
 
     public static void main(String[] args) {
