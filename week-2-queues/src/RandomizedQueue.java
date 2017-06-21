@@ -129,7 +129,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return (Item[]) new Object[max];
     }
 
-    public static void main(String[] args) {
-
-    }
+//    public static void main(String[] args) {
+//
+//    }
 }
