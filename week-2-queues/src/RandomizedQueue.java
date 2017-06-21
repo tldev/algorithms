@@ -6,7 +6,7 @@ import java.util.Iterator;
  * Created by tjohnell on 6/18/17.
  */
 public class RandomizedQueue<Item> implements Iterable<Item> {
-    private static final int INITIAL_ARRAY_SIZE = 10;
+    private static final int INITIAL_ARRAY_SIZE = 8;
 
     private int head;
     private int tail;
@@ -36,15 +36,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new  java.lang.NullPointerException();
         }
 
-        if (tail == queue.length) {
-            tail = 0;
-        }
-
-        queue[tail++] = item;
+        queue[tail] = item;
         ++size;
 
         // So random, many wows
-        swap(tail - 1, randomIndex());
+        swap(tail, randomIndex());
+        tail = tail++ % queue.length;
 
         // We need to up the capacity
         if (size > queue.length / 2.0) {
@@ -59,12 +56,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         Item item = queue[head];
-        queue[head++] = null;
+        queue[head] = null;
         --size;
 
-        if (head == queue.length) {
-            head = 0;
-        }
+        head = head++ % queue.length;
 
         if (size < queue.length / 4.0) {
             changeQueueSize(queue.length / 2);
@@ -119,8 +114,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         queue[j] = temp;
     }
 
-    private void changeQueueSize(int newSize) {
-        Item[] newQueue = createArray(newSize);
+    private void changeQueueSize(int max) {
+        Item[] newQueue = createArray(max);
         for (int i = 0; i < size; i++) {
             newQueue[i] = queue[(head + i) % queue.length];
         }
