@@ -32,7 +32,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // add the item
     public void enqueue(Item item) {
         if (item == null) {
-            throw new java.lang.NullPointerException();
+            throw new java.lang.IllegalArgumentException();
         }
 
         queue[tail] = item;
@@ -40,7 +40,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         // So random, many wows
         swap(tail, randomIndex());
-        tail = (++tail % queue.length);
+        ++tail;
+        tail = tail % queue.length;
 
         // We need to up the capacity
         if (size > queue.length / 2) {
@@ -58,7 +59,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         queue[head] = null;
         --size;
 
-        head = (++head % queue.length);
+        ++head;
+        head = head % queue.length;
 
         if (size < queue.length / 4) {
             changeQueueSize(queue.length / 2);
