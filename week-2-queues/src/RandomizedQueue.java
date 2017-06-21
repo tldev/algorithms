@@ -77,8 +77,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private class RandomizedQueueIterator implements Iterator<Item> {
-        int[] randomIndexes = StdRandom.permutation(size);
-        int current = 0;
+        private int[] randomIndexes = StdRandom.permutation(size);
+        private int current = 0;
 
         public boolean hasNext() {
             return current < size;
