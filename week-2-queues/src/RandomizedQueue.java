@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
@@ -6,7 +7,7 @@ import java.util.Iterator;
  * Created by tjohnell on 6/18/17.
  */
 public class RandomizedQueue<Item> implements Iterable<Item> {
-    private static final int INITIAL_ARRAY_SIZE = 2;
+    private static final int INITIAL_ARRAY_SIZE = 8;
 
     private int head;
     private int tail;
@@ -26,14 +27,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     // return the number of items on the queue
-    public int size()                         {
+    public int size() {
         return size;
     }
 
     // add the item
     public void enqueue(Item item) {
         if (item == null) {
-            throw new  java.lang.NullPointerException();
+            throw new java.lang.NullPointerException();
         }
 
         queue[tail] = item;
@@ -44,7 +45,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         tail = ++tail % queue.length;
 
         // We need to up the capacity
-        if (size > queue.length / 2.0) {
+        if (size > queue.length / 2) {
             changeQueueSize(queue.length * 2);
         }
     }
@@ -61,7 +62,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         head = ++head % queue.length;
 
-        if (size < queue.length / 4.0) {
+        if (size < queue.length / 4) {
             changeQueueSize(queue.length / 2);
         }
 
@@ -105,7 +106,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private int randomIndex() {
-        return (head + StdRandom.uniform(size)) % size;
+        return (head + StdRandom.uniform(size)) % queue.length;
     }
 
     private void swap(int i, int j) {
@@ -126,7 +127,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private Item[] createArray(int size) {
-        return (Item[])new Object[size];
+        return (Item[]) new Object[size];
     }
 
     public static void main(String[] args) {
