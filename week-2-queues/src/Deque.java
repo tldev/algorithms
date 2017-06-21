@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * Created by tjohnell on 6/18/17.
@@ -11,6 +12,7 @@ public class Deque<Item> implements Iterable<Item> {
     private class Node {
         private Item item;
         private Node next;
+        private Node prev;
     }
 
     // construct an empty deque
@@ -36,9 +38,11 @@ public class Deque<Item> implements Iterable<Item> {
 
         Node newFirst = new Node();
         newFirst.item = item;
+        newFirst.prev = null;
+        newFirst.next = first;
 
         if (first != null) {
-            newFirst.next = first;
+            first.prev = newFirst;
         } else {
             last = newFirst;
         }
@@ -55,6 +59,8 @@ public class Deque<Item> implements Iterable<Item> {
 
         Node newLast = new Node();
         newLast.item = item;
+        newLast.next = null;
+        newLast.prev = last;
 
         if (last != null) {
             last.next = newLast;
@@ -77,6 +83,8 @@ public class Deque<Item> implements Iterable<Item> {
 
         if (first == null) {
             last = null;
+        } else {
+            first.prev = null;
         }
 
         size--;
@@ -90,23 +98,18 @@ public class Deque<Item> implements Iterable<Item> {
             throw new java.util.NoSuchElementException();
         }
 
-        Node previous = null;
-        Node current = first;
-        while (current.next != null) {
-            previous = current;
-            current = current.next;
-        }
+        Node oldLast = last;
+        last = oldLast.prev;
 
-        if (previous != null) {
-            previous.next = null;
-        } else {
+        if (last == null) {
             first = null;
+        } else {
+            last.next = null;
         }
 
-        last = previous;
         size--;
 
-        return current.item;
+        return oldLast.item;
     }
 
     private class DequeIterator implements Iterator<Item> {
