@@ -76,31 +76,30 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return queue[randomIndex()];
     }
 
+    private class RandomizedQueueIterator implements Iterator<Item> {
+        int[] randomIndexes = StdRandom.permutation(size);
+        int current = 0;
+
+        public boolean hasNext() {
+            return current < size;
+        }
+
+        public Item next() {
+            if (!hasNext()) {
+                throw new java.util.NoSuchElementException();
+            }
+
+            return queue[(head + randomIndexes[current++]) % queue.length];
+        }
+
+        public void remove() {
+            throw new java.lang.UnsupportedOperationException();
+        }
+    }
+
     // return an independent iterator over items in random order
     public Iterator<Item> iterator() {
-        return new Iterator<Item>() {
-            int[] randomIndexes = StdRandom.permutation(size);
-            int current = 0;
-
-            @Override
-            public boolean hasNext() {
-                return current < size;
-            }
-
-            @Override
-            public Item next() {
-                if (!hasNext()) {
-                    throw new java.util.NoSuchElementException();
-                }
-
-                return queue[(head + randomIndexes[current++]) % queue.length];
-            }
-
-            @Override
-            public void remove() {
-                throw new java.lang.UnsupportedOperationException();
-            }
-        };
+        return new RandomizedQueueIterator();
     }
 
     private int randomIndex() {
