@@ -14,7 +14,7 @@ public class Permutation {
         while (true) {
             try {
                 queue.enqueue(StdIn.readString());
-            } catch(NoSuchElementException e) {
+            } catch (NoSuchElementException e) {
                 break;
             }
 
