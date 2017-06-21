@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
@@ -95,7 +96,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
                     throw new java.util.NoSuchElementException();
                 }
 
-                return queue[(head + randomIndexes[current++]) % size];
+                return queue[(head + randomIndexes[current++]) % queue.length];
             }
 
             @Override
