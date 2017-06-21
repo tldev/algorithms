@@ -128,8 +128,4 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] createArray(int max) {
         return (Item[]) new Object[max];
     }
-
-//    public static void main(String[] args) {
-//
-//    }
 }

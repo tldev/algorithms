@@ -138,9 +138,4 @@ public class Deque<Item> implements Iterable<Item> {
     public Iterator<Item> iterator() {
         return new DequeIterator();
     }
-
-    // unit testing (optional)
-//    public static void main(String[] args) {
-//
-//    }
 }
