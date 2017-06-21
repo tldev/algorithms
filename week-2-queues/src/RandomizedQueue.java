@@ -6,7 +6,7 @@ import java.util.Iterator;
  * Created by tjohnell on 6/18/17.
  */
 public class RandomizedQueue<Item> implements Iterable<Item> {
-    private static final int INITIAL_ARRAY_SIZE = 8;
+    private static final int INITIAL_ARRAY_SIZE = 2;
 
     private int head;
     private int tail;
@@ -41,7 +41,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         // So random, many wows
         swap(tail, randomIndex());
-        tail = tail++ % queue.length;
+        tail = ++tail % queue.length;
 
         // We need to up the capacity
         if (size > queue.length / 2.0) {
@@ -59,7 +59,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         queue[head] = null;
         --size;
 
-        head = head++ % queue.length;
+        head = ++head % queue.length;
 
         if (size < queue.length / 4.0) {
             changeQueueSize(queue.length / 2);
