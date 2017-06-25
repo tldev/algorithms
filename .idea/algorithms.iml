@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/week-1-percolation/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/week-2-queues/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sorting/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/week-3-pattern-recognition/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
