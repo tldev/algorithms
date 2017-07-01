@@ -13,8 +13,6 @@ import edu.princeton.cs.algs4.StdDraw;
 
 public class Point implements Comparable<Point> {
 
-    private static double EPSILON = 0.000001;
-
     private final int x;     // x-coordinate of this point
     private final int y;     // y-coordinate of this point
 
@@ -69,7 +67,7 @@ public class Point implements Comparable<Point> {
             return Double.POSITIVE_INFINITY;
         }
 
-        return (that.y - this.y) / (double)(that.x - this.x);
+        return (that.y - this.y) / (double) (that.x - this.x);
     }
 
     /**
@@ -101,7 +99,7 @@ public class Point implements Comparable<Point> {
             double slope1 = point.slopeTo(o1);
             double slope2 = point.slopeTo(o2);
 
-            if (Math.abs(slope1 - slope2) < EPSILON) {
+            if (Math.abs(slope1 - slope2) < 0.000001) {
                 return 0;
             }
 
