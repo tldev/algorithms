@@ -17,26 +17,24 @@ public class BruteCollinearPoints {
             }
         }
 
+        Arrays.sort(points);
+
+        for (int i = 0; i < points.length - 1; i++) {
+            if (points[i].compareTo(points[i + 1]) == 0) {
+                throw new java.lang.IllegalArgumentException();
+            }
+        }
+
         points = points.clone();
         Stack<LineSegment> lineSegments = new Stack<>();
-        Arrays.sort(points);
 
         for (int i = 0; i < points.length - 3; i++) {
             for (int j = i + 1; j < points.length - 2; j++) {
-                if (points[i].compareTo(points[j]) == 0) {
-                    throw new java.lang.IllegalArgumentException();
-                }
                 double ij = points[i].slopeTo(points[j]);
                 for (int k = j + 1; k < points.length - 1; k++) {
-                    if(points[j].compareTo(points[k]) == 0) {
-                        throw new java.lang.IllegalArgumentException();
-                    }
                     double ik = points[i].slopeTo(points[k]);
                     if (isEqualSlopes(ik, ij)) {
                         for (int l = k + 1; l < points.length; l++) {
-                            if(points[k].compareTo(points[l]) == 0) {
-                                throw new java.lang.IllegalArgumentException();
-                            }
                             double il = points[i].slopeTo(points[l]);
                             if (isEqualSlopes(il, ij)) {
                                 lineSegments.push(new LineSegment(points[i], points[l]));
