@@ -45,6 +45,6 @@ public class BruteCollinearPoints {
     }
 
     private boolean isEqualSlopes(double slope1, double slope2) {
-        return Math.abs(slope1 - slope2) < 0.000001;
+        return slope1 == slope2 || Math.abs(slope1 - slope2) < 0.000001;
     }
 }
