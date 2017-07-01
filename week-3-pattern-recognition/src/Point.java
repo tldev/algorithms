@@ -111,7 +111,7 @@ public class Point implements Comparable<Point> {
             double slope1 = point.slopeTo(o1);
             double slope2 = point.slopeTo(o2);
 
-            if (Math.abs(slope1 - slope2) < 0.000001) {
+            if (slope1 == slope2 || Math.abs(slope1 - slope2) < 0.000001) {
                 return 0;
             }
 

@@ -3,11 +3,11 @@ import java.util.Stack;
 
 public class BruteCollinearPoints {
 
-    private LineSegment[] segments;
+    private final LineSegment[] segments;
 
     // finds all line segments containing 4 points
     public BruteCollinearPoints(Point[] points) {
-        Stack<LineSegment> lineSegments = new Stack<LineSegment>();
+        Stack<LineSegment> lineSegments = new Stack<>();
         Arrays.sort(points);
 
         for (int i = 0; i < points.length - 3; i++) {
