@@ -17,6 +17,7 @@ public class BruteCollinearPoints {
             }
         }
 
+        points = points.clone();
         Arrays.sort(points);
 
         for (int i = 0; i < points.length - 1; i++) {
@@ -25,7 +26,6 @@ public class BruteCollinearPoints {
             }
         }
 
-        points = points.clone();
         Stack<LineSegment> lineSegments = new Stack<>();
 
         for (int i = 0; i < points.length - 3; i++) {
