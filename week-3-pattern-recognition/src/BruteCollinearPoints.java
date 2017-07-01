@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 public class BruteCollinearPoints {
@@ -7,7 +9,10 @@ public class BruteCollinearPoints {
 
     // finds all line segments containing 4 points
     public BruteCollinearPoints(Point[] points) {
-        points = points.clone();
+        if (points == null) {
+            throw new java.lang.IllegalArgumentException();
+        }
+        points = deDupe(points);
         Stack<LineSegment> lineSegments = new Stack<>();
         Arrays.sort(points);
 
@@ -47,5 +52,26 @@ public class BruteCollinearPoints {
 
     private boolean isEqualSlopes(double slope1, double slope2) {
         return slope1 == slope2 || Math.abs(slope1 - slope2) < 0.000001;
+    }
+
+    private Point[] deDupe(Point[] points) {
+        HashMap<String, Point> map = new HashMap<>(points.length);
+        for (Point p : points) {
+            if (p == null) {
+                throw new java.lang.IllegalArgumentException();
+            }
+
+            if (!map.containsKey(p.toString())) {
+                map.put(p.toString(), p);
+            }
+        }
+
+        Point[] pointSet = new Point[map.size()];
+        int i = 0;
+        for (Map.Entry<String, Point> e : map.entrySet()) {
+            pointSet[i] = e.getValue();
+        }
+
+        return pointSet;
     }
 }
