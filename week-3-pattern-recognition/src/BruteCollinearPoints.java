@@ -7,6 +7,7 @@ public class BruteCollinearPoints {
 
     // finds all line segments containing 4 points
     public BruteCollinearPoints(Point[] points) {
+        points = points.clone();
         Stack<LineSegment> lineSegments = new Stack<>();
         Arrays.sort(points);
 
