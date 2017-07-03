@@ -6,7 +6,7 @@ import java.util.Stack;
  */
 public class FastCollinearPoints {
     private final LineSegment[] segments;
-    
+
     // finds all line segments containing 4 points
     public FastCollinearPoints(Point[] points) {
         if (points == null) {
@@ -20,7 +20,6 @@ public class FastCollinearPoints {
         }
 
         points = points.clone();
-        Arrays.sort(points);
 
         for (int i = 0; i < points.length - 1; i++) {
             if (points[i].compareTo(points[i + 1]) == 0) {
@@ -40,16 +39,23 @@ public class FastCollinearPoints {
 
             Arrays.sort(pointCandidates, basePoint.slopeOrder());
 
-            int currentCount = 1;
+            int currentCount = 2;
             for (int m = 1; m < pointCandidates.length; m++) {
                 if (isEqualSlopes(basePoint.slopeTo(pointCandidates[m]), basePoint.slopeTo(pointCandidates[m - 1]))) {
                     currentCount++;
                     if (currentCount >= 4) {
-                        lineSegments.push(new LineSegment(points[m - 3], points[m]));
+                        Point[] sortedPoints = new Point[4];
+                        sortedPoints[0] = basePoint;
+                        sortedPoints[1] = pointCandidates[m - 2];
+                        sortedPoints[2] = pointCandidates[m - 1];
+                        sortedPoints[3] = pointCandidates[m];
+                        Arrays.sort(sortedPoints);
+
+                        lineSegments.push(new LineSegment(sortedPoints[0], sortedPoints[3]));
                         currentCount = 1;
                     }
                 } else {
-                    currentCount = 1;
+                    currentCount = 2;
                 }
             }
         }
