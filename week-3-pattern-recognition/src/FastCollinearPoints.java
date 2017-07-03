@@ -43,18 +43,16 @@ public class FastCollinearPoints {
             for (int m = 1; m < pointCandidates.length; m++) {
                 if (isEqualSlopes(basePoint.slopeTo(pointCandidates[m]), basePoint.slopeTo(pointCandidates[m - 1]))) {
                     currentCount++;
+                } else {
                     if (currentCount >= 4) {
-                        Point[] sortedPoints = new Point[4];
+                        Point[] sortedPoints = new Point[currentCount];
                         sortedPoints[0] = basePoint;
-                        sortedPoints[1] = pointCandidates[m - 2];
-                        sortedPoints[2] = pointCandidates[m - 1];
-                        sortedPoints[3] = pointCandidates[m];
+                        System.arraycopy(pointCandidates, m - currentCount + 1, sortedPoints, 1, currentCount - 1);
                         Arrays.sort(sortedPoints);
 
-                        lineSegments.push(new LineSegment(sortedPoints[0], sortedPoints[3]));
-                        currentCount = 1;
+                        lineSegments.push(new LineSegment(sortedPoints[0], sortedPoints[currentCount - 1]));
                     }
-                } else {
+
                     currentCount = 2;
                 }
             }
