@@ -19,32 +19,32 @@ public class FastCollinearPoints {
             }
         }
 
-        points = points.clone();
+        Point[] pointsClone = points.clone();
 
-        for (int i = 0; i < points.length - 1; i++) {
-            if (points[i].compareTo(points[i + 1]) == 0) {
+        for (int i = 0; i < pointsClone.length - 1; i++) {
+            if (pointsClone[i].compareTo(pointsClone[i + 1]) == 0) {
                 throw new java.lang.IllegalArgumentException();
             }
         }
 
         Stack<LineSegment> lineSegments = new Stack<>();
 
-        for (int i = 0; i < points.length - 3; i++) {
+        for (int i = 0; i < points.length; i++) {
             Point basePoint = points[i];
-            Arrays.sort(points, basePoint.slopeOrder());
+            Arrays.sort(pointsClone, basePoint.slopeOrder());
 
             int min = 1;
-            while (min < points.length) {
+            while (min < pointsClone.length) {
                 int max = min;
-                while (max < points.length
-                        && Double.compare(basePoint.slopeTo(points[min]), basePoint.slopeTo(points[max])) == 0) {
+                while (max < pointsClone.length
+                        && Double.compare(basePoint.slopeTo(pointsClone[min]), basePoint.slopeTo(pointsClone[max])) == 0) {
                     max++;
                 }
 
                 int size = max - min;
                 if (size >= 3) {
                     Point[] newPoints = new Point[size];
-                    System.arraycopy(points, min, newPoints, 0, size);
+                    System.arraycopy(pointsClone, min, newPoints, 0, size);
                     Arrays.sort(newPoints);
                     if (basePoint.compareTo(newPoints[0]) < 0) {
                         lineSegments.push(new LineSegment(basePoint, newPoints[size - 1]));
