@@ -56,6 +56,15 @@ public class FastCollinearPoints {
                     currentCount = 2;
                 }
             }
+
+            if (currentCount >= 4) {
+                Point[] sortedPoints = new Point[currentCount];
+                sortedPoints[0] = basePoint;
+                System.arraycopy(pointCandidates, pointCandidates.length - currentCount + 1, sortedPoints, 1, currentCount - 1);
+                Arrays.sort(sortedPoints);
+
+                lineSegments.push(new LineSegment(sortedPoints[0], sortedPoints[currentCount - 1]));
+            }
         }
 
         segments = new LineSegment[lineSegments.size()];
