@@ -29,26 +29,22 @@ public class FastCollinearPoints {
 
         Stack<LineSegment> lineSegments = new Stack<>();
 
-        for (int i = 0; i < points.length; i++) {
-            Point basePoint = points[i];
-            Arrays.sort(pointsClone, basePoint.slopeOrder());
+        for (Point point : points) {
+            // Sub-sort by min to max
+            Arrays.sort(pointsClone);
+            // Sort by slope
+            Arrays.sort(pointsClone, point.slopeOrder());
 
             int min = 1;
             while (min < pointsClone.length) {
-                int max = min;
+                int max = min + 1;
                 while (max < pointsClone.length
-                        && Double.compare(basePoint.slopeTo(pointsClone[min]), basePoint.slopeTo(pointsClone[max])) == 0) {
+                        && Double.compare(point.slopeTo(pointsClone[min]), point.slopeTo(pointsClone[max])) == 0) {
                     max++;
                 }
 
-                int size = max - min;
-                if (size >= 3) {
-                    Point[] newPoints = new Point[size];
-                    System.arraycopy(pointsClone, min, newPoints, 0, size);
-                    Arrays.sort(newPoints);
-                    if (basePoint.compareTo(newPoints[0]) < 0) {
-                        lineSegments.push(new LineSegment(basePoint, newPoints[size - 1]));
-                    }
+                if (max - min >= 3 && point.compareTo(pointsClone[min]) < 0) {
+                    lineSegments.push(new LineSegment(point, pointsClone[max - 1]));
                 }
 
                 min = max;
