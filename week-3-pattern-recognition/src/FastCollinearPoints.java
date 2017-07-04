@@ -31,39 +31,27 @@ public class FastCollinearPoints {
 
         for (int i = 0; i < points.length - 3; i++) {
             Point basePoint = points[i];
-            Point[] pointCandidates = new Point[points.length - i - 1];
-            int k = 0;
-            for (int j = i + 1; j < points.length; j++) {
-                pointCandidates[k++] = points[j];
-            }
+            Arrays.sort(points, basePoint.slopeOrder());
 
-            Arrays.sort(pointCandidates, basePoint.slopeOrder());
-
-            int currentCount = 2;
-            for (int m = 1; m < pointCandidates.length; m++) {
-                if (isEqualSlopes(basePoint.slopeTo(pointCandidates[m]), basePoint.slopeTo(pointCandidates[m - 1]))) {
-                    currentCount++;
-                } else {
-                    if (currentCount >= 4) {
-                        Point[] sortedPoints = new Point[currentCount];
-                        sortedPoints[0] = basePoint;
-                        System.arraycopy(pointCandidates, m - currentCount + 1, sortedPoints, 1, currentCount - 1);
-                        Arrays.sort(sortedPoints);
-
-                        lineSegments.push(new LineSegment(sortedPoints[0], sortedPoints[currentCount - 1]));
-                    }
-
-                    currentCount = 2;
+            int min = 1;
+            while (min < points.length) {
+                int max = min;
+                while (max < points.length
+                        && Double.compare(basePoint.slopeTo(points[min]), basePoint.slopeTo(points[max])) == 0) {
+                    max++;
                 }
-            }
 
-            if (currentCount >= 4) {
-                Point[] sortedPoints = new Point[currentCount];
-                sortedPoints[0] = basePoint;
-                System.arraycopy(pointCandidates, pointCandidates.length - currentCount + 1, sortedPoints, 1, currentCount - 1);
-                Arrays.sort(sortedPoints);
+                int size = max - min;
+                if (size >= 3) {
+                    Point[] newPoints = new Point[size];
+                    System.arraycopy(points, min, newPoints, 0, size);
+                    Arrays.sort(newPoints);
+                    if (basePoint.compareTo(newPoints[0]) < 0) {
+                        lineSegments.push(new LineSegment(basePoint, newPoints[size - 1]));
+                    }
+                }
 
-                lineSegments.push(new LineSegment(sortedPoints[0], sortedPoints[currentCount - 1]));
+                min = max;
             }
         }
 
@@ -82,9 +70,5 @@ public class FastCollinearPoints {
     // the line segments
     public LineSegment[] segments() {
         return segments.clone();
-    }
-
-    private boolean isEqualSlopes(double slope1, double slope2) {
-        return slope1 == slope2 || Math.abs(slope1 - slope2) < 0.000001;
     }
 }
