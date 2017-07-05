@@ -34,10 +34,10 @@ public class BruteCollinearPoints {
                 for (int k = j + 1; k < points.length - 1; k++) {
                     double ik = points[i].slopeTo(points[k]);
                     if (isEqualSlopes(ik, ij)) {
-                        for (int l = k + 1; l < points.length; l++) {
-                            double il = points[i].slopeTo(points[l]);
+                        for (int m = k + 1; m < points.length; m++) {
+                            double il = points[i].slopeTo(points[m]);
                             if (isEqualSlopes(il, ij)) {
-                                lineSegments.push(new LineSegment(points[i], points[l]));
+                                lineSegments.push(new LineSegment(points[i], points[m]));
                             }
                         }
                     }
