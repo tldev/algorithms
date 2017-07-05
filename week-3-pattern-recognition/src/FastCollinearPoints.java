@@ -43,6 +43,9 @@ public class FastCollinearPoints {
                     max++;
                 }
 
+                // If at least 3 points in a row (total 4), and the current test point is the min,
+                // create the line segment.  Testing the current test point is the min ensures we do not
+                // attempt to add subsets to this line segment
                 if (max - min >= 3 && point.compareTo(pointsClone[min]) < 0) {
                     lineSegments.push(new LineSegment(point, pointsClone[max - 1]));
                 }
