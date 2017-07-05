@@ -20,13 +20,6 @@ public class FastCollinearPoints {
         }
 
         Point[] pointsClone = points.clone();
-
-        for (int i = 0; i < pointsClone.length - 1; i++) {
-            if (pointsClone[i].compareTo(pointsClone[i + 1]) == 0) {
-                throw new java.lang.IllegalArgumentException();
-            }
-        }
-
         Stack<LineSegment> lineSegments = new Stack<>();
 
         for (Point point : points) {
@@ -34,6 +27,10 @@ public class FastCollinearPoints {
             Arrays.sort(pointsClone);
             // Sort by slope
             Arrays.sort(pointsClone, point.slopeOrder());
+
+            if (pointsClone.length > 1 && point.slopeTo(pointsClone[1]) == Double.NEGATIVE_INFINITY) {
+                throw new java.lang.IllegalArgumentException();
+            }
 
             int min = 1;
             while (min < pointsClone.length) {
