@@ -28,7 +28,7 @@ public class FastCollinearPoints {
             // Sort by slope
             Arrays.sort(pointsClone, point.slopeOrder());
 
-            if (pointsClone.length > 1 && point.slopeTo(pointsClone[1]) == Double.NEGATIVE_INFINITY) {
+            if (pointsClone.length > 1 && point.compareTo(pointsClone[1]) == 0) {
                 throw new java.lang.IllegalArgumentException();
             }
 
