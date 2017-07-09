@@ -63,7 +63,7 @@ public class Board {
         for (int row = 0; row < dimension(); row++) {
             builder.append(" ");
             for (int column = 0; column < dimension(); column++) {
-                builder.append(String.format("%d  ", value(row, column)));
+                builder.append(String.format("%2d ", value(row, column)));
             }
             builder.append("\n");
         }
