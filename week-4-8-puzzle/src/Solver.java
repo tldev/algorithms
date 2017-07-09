@@ -1,5 +1,6 @@
 import edu.princeton.cs.algs4.MinPQ;
-import edu.princeton.cs.algs4.ResizingArrayQueue;
+import edu.princeton.cs.algs4.ResizingArrayStack;
+import edu.princeton.cs.algs4.StdOut;
 
 /**
  * Created by tjohnell on 7/9/17.
@@ -66,9 +67,9 @@ public class Solver {
 
         numMoves = node.numMoves;
 
-        ResizingArrayQueue<Board> solution = new ResizingArrayQueue<>();
+        ResizingArrayStack<Board> solution = new ResizingArrayStack<>();
         while (node != null) {
-            solution.enqueue(node.b);
+            solution.push(node.b);
             node = node.lastSearchNode;
         }
 
