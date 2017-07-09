@@ -1,6 +1,5 @@
-import edu.princeton.cs.algs4.StdOut;
-
-import java.util.Iterator;
+import java.util.Arrays;
+import java.util.Stack;
 
 /**
  * Created by tjohnell on 7/9/17.
@@ -51,32 +50,26 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y) {
-        return y instanceof Board && y.toString().equals(toString());
-    }
-
-    private class BoardIterator implements Iterable<Board> {
-        public Iterator<Board> iterator() {
-            return null;
-        }
+        return y instanceof Board && Arrays.equals(((Board) y).blocks, blocks);
     }
 
     // all neighboring boards
     public Iterable<Board> neighbors() {
-        return new BoardIterator();
+        return new Stack<Board>();
     }
 
     // string representation of this board (in the output format specified below)
     public String toString() {
-        String string = "";
+        StringBuilder builder = new StringBuilder("");
         for (int row = 0; row < dimension(); row++) {
-            string += " ";
+            builder.append(" ");
             for (int column = 0; column < dimension(); column++) {
-                string += String.format("%d  ", value(row, column));
+                builder.append(String.format("%d  ", value(row, column)));
             }
-            string += "\n";
+            builder.append("\n");
         }
 
-        return string;
+        return builder.toString();
     }
 
     private int value(int row, int column) {
