@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Stack;
 
 /**
@@ -7,12 +6,11 @@ import java.util.Stack;
  */
 public class Board {
     private final int[][] blocks;
-    private HashMap<String, Integer> cache;
+    private int hamming, manhattan = -1;
 
     // construct a board from an n-by-n array of blocks
     public Board(int[][] blocks) {
         this.blocks = blocks.clone();
-        this.cache = new HashMap<>();
     }
 
     // (where blocks[i][j] = block in row i, column j)
@@ -23,24 +21,20 @@ public class Board {
 
     // number of blocks out of place
     public int hamming() {
-        if (cache.containsKey("hamming")) {
-            return cache.get("hamming");
-        } else {
-            int result = calcHamming();
-            cache.put("hamming", result) ;
-            return result;
+        if (hamming == -1) {
+            hamming = calcHamming();
         }
+
+        return hamming;
     }
 
     // sum of Manhattan distances between blocks and goal
     public int manhattan() {
-        if (cache.containsKey("manhattan")) {
-            return cache.get("manhattan");
-        } else {
-            int result = calcManhattan();
-            cache.put("manhattan", result) ;
-            return result;
+        if (manhattan == -1) {
+            manhattan = calcManhattan();
         }
+
+        return manhattan;
     }
 
     // is this board the goal board?
