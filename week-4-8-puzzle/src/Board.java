@@ -6,11 +6,11 @@ import java.util.Stack;
  */
 public class Board {
     private final int[][] blocks;
-    private int ham = -1, man = -1;
+    private int ham = -1, man = -1, zRow = -1, zColumn = -1;
 
     // construct a board from an n-by-n array of blocks
     public Board(int[][] blocks) {
-        this.blocks = blocks.clone();
+        this.blocks = blocksClone(blocks);
     }
 
     // (where blocks[i][j] = block in row i, column j)
@@ -54,7 +54,20 @@ public class Board {
 
     // all neighboring boards
     public Iterable<Board> neighbors() {
-        return new Stack<Board>();
+        Stack<Board> neighbors = new Stack<>();
+        int emptyRow = zeroRow();
+        int emptyColumn = zeroColumn();
+        int[][] offsets = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+        for (int[] offset : offsets) {
+            int newEmptyRow = emptyRow + offset[0];
+            int newEmptyColumn = emptyColumn + offset[1];
+
+            if (newEmptyRow >= 0 && newEmptyRow < dimension() && newEmptyColumn >= 0 && newEmptyColumn < dimension())
+                neighbors.push(new Board(copyAndSwap(emptyRow, emptyColumn, newEmptyRow, newEmptyColumn)));
+        }
+
+        return neighbors;
     }
 
     // string representation of this board (in the output format specified below)
@@ -78,7 +91,15 @@ public class Board {
     private int calcHamming() {
         int misplaced = 0;
         for (int i = 1; i < dimension() * dimension(); i++) {
-            if (value(goalRow(i), goalColumn(i)) != i) misplaced++;
+            int gRow = goalRow(i);
+            int gColumn = goalColumn(i);
+            int currentValue = value(gRow, gColumn);
+
+            if (currentValue == 0) {
+                setZeroRowAndColumn(gRow, gColumn);
+            }
+
+            if (currentValue != i) misplaced++;
         }
 
         return misplaced;
@@ -89,7 +110,10 @@ public class Board {
         for (int row = 0; row < dimension(); row++) {
             for (int column = 0; column < dimension(); column++) {
                 int value = value(row, column);
-                if (value == 0) continue;
+                if (value == 0) {
+                    setZeroRowAndColumn(row, column);
+                    continue;
+                }
                 manhattan += Math.abs(row - goalRow(value)) + Math.abs(column - goalColumn(value));
             }
         }
@@ -103,6 +127,53 @@ public class Board {
 
     private int goalColumn(int value) {
         return (value - 1) % dimension();
+    }
+
+    private int zeroRow() {
+        if (zRow == -1) {
+            findAndSetZeroRowAndColumn();
+        }
+
+        return zRow;
+    }
+
+    private int zeroColumn() {
+        if (zColumn == -1) {
+            findAndSetZeroRowAndColumn();
+        }
+
+        return zColumn;
+    }
+
+    private void findAndSetZeroRowAndColumn() {
+        for (int row = 0; row < dimension(); row++) {
+            for (int column = 0; column < dimension(); column++) {
+                if (value(row, column) == 0) setZeroRowAndColumn(row, column);
+            }
+        }
+    }
+
+    private void setZeroRowAndColumn(int row, int column) {
+        zRow = row;
+        zColumn = column;
+    }
+
+    private int[][] copyAndSwap(int p1Row, int p1Column, int p2Row, int p2Column) {
+        int[][] blocksCopy = blocksClone(blocks);
+        int temp = blocksCopy[p1Row][p1Column];
+        blocksCopy[p1Row][p1Column] = blocksCopy[p2Row][p2Column];
+        blocksCopy[p2Row][p2Column] = temp;
+
+        return blocksCopy;
+    }
+
+    private int[][] blocksClone(int[][] originalBlocks) {
+        int[][] blocksCopy = originalBlocks.clone();
+        for (int i = 0; i < originalBlocks.length; i++) {
+            blocksCopy[i] = originalBlocks[i].clone();
+        }
+
+        return blocksCopy;
     }
 
     // unit tests (not graded)
