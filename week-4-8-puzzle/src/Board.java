@@ -44,12 +44,29 @@ public class Board {
 
     // a board that is obtained by exchanging any pair of blocks
     public Board twin() {
-        return new Board(copyAndSwap(0, 0, 0, 1));
+        for (int row1 = 0; row1 < dimension(); row1++) {
+            for (int column1 = 0; column1 < dimension(); column1++) {
+                for (int row2 = 0; row2 < dimension(); row2++) {
+                    for (int column2 = 0; column2 < dimension(); column2++) {
+                        int value1 = value(row1, column1);
+                        int value2 = value(row2, column2);
+                        if (value1 != 0 && value2 != 0 && value1 != value2) {
+                            return new Board(copyAndSwap(row1, column1, row2, column2));
+                        }
+                    }
+                }
+            }
+        }
+
+        throw new RuntimeException("WHAT?");
     }
 
     // does this board equal y?
     public boolean equals(Object y) {
-        return y == null || y.getClass() == getClass() && Arrays.deepEquals(((Board) y).blocks, blocks);
+        return y != null
+                && y.getClass() == getClass()
+                && ((Board) y).dimension() == dimension()
+                && Arrays.deepEquals(((Board) y).blocks, blocks);
     }
 
     // all neighboring boards
