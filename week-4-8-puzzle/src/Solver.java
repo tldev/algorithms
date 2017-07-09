@@ -83,13 +83,13 @@ public class Solver {
             this.lastSearchNode = lastSearchNode;
         }
 
-        public int hamming() {
-            return b.hamming() + numMoves;
+        public int manhattan() {
+            return b.manhattan() + numMoves;
         }
 
 
         public int compareTo(SearchNode o) {
-            return Integer.compare(hamming(), o.hamming());
+            return Integer.compare(manhattan(), o.manhattan());
         }
     }
 
