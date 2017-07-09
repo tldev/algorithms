@@ -6,7 +6,7 @@ import java.util.Stack;
  */
 public class Board {
     private final int[][] blocks;
-    private int ham, man = -1;
+    private int ham = -1, man = -1;
 
     // construct a board from an n-by-n array of blocks
     public Board(int[][] blocks) {
@@ -49,7 +49,7 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y) {
-        return y.getClass() == getClass() && Arrays.deepEquals(((Board) y).blocks, blocks);
+        return y == null || y.getClass() == getClass() && Arrays.deepEquals(((Board) y).blocks, blocks);
     }
 
     // all neighboring boards
