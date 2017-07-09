@@ -7,6 +7,8 @@ import edu.princeton.cs.algs4.ResizingArrayQueue;
 public class Solver {
     private MinPQ<SearchNode> queue;
     private MinPQ<SearchNode> queueTwin;
+    private boolean hasRun = false;
+    private Iterable<Board> solution;
     private int numMoves = -1;
 
     // find a solution to the initial board (using the A* algorithm)
@@ -31,6 +33,7 @@ public class Solver {
 
     // sequence of boards in a shortest solution; null if unsolvable
     public Iterable<Board> solution() {
+        if (hasRun) return solution;
         SearchNode node = null;
         SearchNode nodeTwin = null;
         while (!queue.isEmpty() && !queueTwin.isEmpty()) {
@@ -64,12 +67,15 @@ public class Solver {
         numMoves = node.numMoves;
 
         ResizingArrayQueue<Board> solution = new ResizingArrayQueue<>();
-        while (node.lastSearchNode != null) {
+        while (node != null) {
             solution.enqueue(node.b);
             node = node.lastSearchNode;
         }
 
-        return solution;
+        hasRun = true;
+        this.solution = solution;
+
+        return this.solution;
     }
 
     private class SearchNode implements Comparable<SearchNode> {
