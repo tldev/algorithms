@@ -6,7 +6,7 @@ import java.util.Stack;
  */
 public class Board {
     private final int[][] blocks;
-    private int hamming, manhattan = -1;
+    private int ham, man = -1;
 
     // construct a board from an n-by-n array of blocks
     public Board(int[][] blocks) {
@@ -21,20 +21,20 @@ public class Board {
 
     // number of blocks out of place
     public int hamming() {
-        if (hamming == -1) {
-            hamming = calcHamming();
+        if (ham == -1) {
+            ham = calcHamming();
         }
 
-        return hamming;
+        return ham;
     }
 
     // sum of Manhattan distances between blocks and goal
     public int manhattan() {
-        if (manhattan == -1) {
-            manhattan = calcManhattan();
+        if (man == -1) {
+            man = calcManhattan();
         }
 
-        return manhattan;
+        return man;
     }
 
     // is this board the goal board?
@@ -49,7 +49,7 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y) {
-        return y instanceof Board && Arrays.deepEquals(((Board) y).blocks, blocks);
+        return y.getClass() == getClass() && Arrays.deepEquals(((Board) y).blocks, blocks);
     }
 
     // all neighboring boards
@@ -77,7 +77,7 @@ public class Board {
 
     private int calcHamming() {
         int misplaced = 0;
-        for (int i = 1; i < dimension() * dimension(); i ++) {
+        for (int i = 1; i < dimension() * dimension(); i++) {
             if (value(goalRow(i), goalColumn(i)) != i) misplaced++;
         }
 

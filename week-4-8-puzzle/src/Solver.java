@@ -1,10 +1,16 @@
+import edu.princeton.cs.algs4.MinPQ;
+
 /**
  * Created by tjohnell on 7/9/17.
  */
 public class Solver {
+    private MinPQ<Board> queue;
+
     // find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial) {
-
+        initial.manhattan();
+        queue = new MinPQ<>();
+        queue.insert(initial);
     }
 
     // is the initial board solvable?
@@ -24,6 +30,6 @@ public class Solver {
 
     // solve a slider puzzle (given below)
     public static void main(String[] args) {
-        
+
     }
 }
