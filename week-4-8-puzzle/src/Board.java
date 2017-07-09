@@ -1,18 +1,18 @@
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Stack;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by tjohnell on 7/9/17.
  */
 public class Board {
     private final int[][] blocks;
-    private ConcurrentHashMap<String, Integer> cache;
+    private HashMap<String, Integer> cache;
 
     // construct a board from an n-by-n array of blocks
     public Board(int[][] blocks) {
         this.blocks = blocks.clone();
-        this.cache = new ConcurrentHashMap<>();
+        this.cache = new HashMap<>();
     }
 
     // (where blocks[i][j] = block in row i, column j)
