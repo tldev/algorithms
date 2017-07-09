@@ -1,4 +1,5 @@
 import edu.princeton.cs.algs4.MinPQ;
+import edu.princeton.cs.algs4.ResizingArrayQueue;
 
 /**
  * Created by tjohnell on 7/9/17.
@@ -62,13 +63,13 @@ public class Solver {
 
         numMoves = node.numMoves;
 
-        Deque<Board> solutions = new Deque<>();
+        ResizingArrayQueue<Board> solution = new ResizingArrayQueue<>();
         while (node.lastSearchNode != null) {
-            solutions.addFirst(node.b);
+            solution.enqueue(node.b);
             node = node.lastSearchNode;
         }
 
-        return solutions;
+        return solution;
     }
 
     private class SearchNode implements Comparable<SearchNode> {
