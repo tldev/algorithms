@@ -59,7 +59,7 @@ public class Board {
 
     // string representation of this board (in the output format specified below)
     public String toString() {
-        StringBuilder builder = new StringBuilder("");
+        StringBuilder builder = (new StringBuilder()).append(dimension()).append("\n");
         for (int row = 0; row < dimension(); row++) {
             builder.append(" ");
             for (int column = 0; column < dimension(); column++) {
