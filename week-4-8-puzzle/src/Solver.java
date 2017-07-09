@@ -6,8 +6,7 @@ import edu.princeton.cs.algs4.StdOut;
  * Created by tjohnell on 7/9/17.
  */
 public class Solver {
-    private MinPQ<SearchNode> queue;
-    private MinPQ<SearchNode> queueTwin;
+    private Board initialBoard;
     private boolean hasRun = false;
     private Iterable<Board> solution;
     private int numMoves = -1;
@@ -16,11 +15,7 @@ public class Solver {
     public Solver(Board initial) {
         if (initial == null) throw new IllegalArgumentException();
 
-        initial.manhattan();
-        queue = new MinPQ<>();
-        queue.insert(new SearchNode(initial, 0, null));
-        queueTwin = new MinPQ<>();
-        queueTwin.insert(new SearchNode(initial.twin(), 0, null));
+        initialBoard = initial;
     }
 
     // is the initial board solvable?
@@ -37,24 +32,30 @@ public class Solver {
     // sequence of boards in a shortest solution; null if unsolvable
     public Iterable<Board> solution() {
         if (hasRun) return solution;
+        MinPQ<SearchNode> stack = new MinPQ<>();
+        MinPQ<SearchNode> stackTwin = new MinPQ<>();
+
+        stack.insert(new SearchNode(initialBoard, 0, null));
+        stackTwin.insert(new SearchNode(initialBoard.twin(), 0, null));
+
         SearchNode node = null;
         SearchNode nodeTwin = null;
-        while (!queue.isEmpty() && !queueTwin.isEmpty()) {
-            node = queue.delMin();
-            nodeTwin = queueTwin.delMin();
+        while (!stack.isEmpty() && !stackTwin.isEmpty()) {
+            node = stack.delMin();
+            nodeTwin = stackTwin.delMin();
 
             if (node.b.isGoal()) break;
             if (nodeTwin.b.isGoal()) break;
 
             for (Board n : node.b.neighbors()) {
                 if (node.lastSearchNode == null || !node.lastSearchNode.b.equals(n)) {
-                    queue.insert(new SearchNode(n, node.numMoves + 1, node));
+                    stack.insert(new SearchNode(n, node.numMoves + 1, node));
                 }
             }
 
             for (Board n : nodeTwin.b.neighbors()) {
                 if (nodeTwin.lastSearchNode == null || !nodeTwin.lastSearchNode.b.equals(n)) {
-                    queueTwin.insert(new SearchNode(n, nodeTwin.numMoves + 1, nodeTwin));
+                    stackTwin.insert(new SearchNode(n, nodeTwin.numMoves + 1, nodeTwin));
                 }
             }
         }
