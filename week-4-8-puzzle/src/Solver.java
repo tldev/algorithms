@@ -1,6 +1,5 @@
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.ResizingArrayStack;
-import edu.princeton.cs.algs4.StdOut;
 
 /**
  * Created by tjohnell on 7/9/17.
@@ -85,6 +84,8 @@ public class Solver {
     private class SearchNode implements Comparable<SearchNode> {
         private Board b;
         private int numMoves;
+        private int man = -1;
+
         public SearchNode lastSearchNode;
 
         public SearchNode(Board b, int numMoves, SearchNode lastSearchNode) {
@@ -94,7 +95,11 @@ public class Solver {
         }
 
         public int manhattan() {
-            return b.manhattan() + numMoves;
+            if (man == -1) {
+                man = b.manhattan() + numMoves;
+            }
+
+            return man;
         }
 
 
