@@ -1,17 +1,18 @@
 import java.util.Arrays;
 import java.util.Stack;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by tjohnell on 7/9/17.
  */
 public class Board {
-    private int[][] blocks;
-    private Integer hamming;
-    private Integer manhattan;
+    private final int[][] blocks;
+    private ConcurrentHashMap<String, Integer> cache;
 
     // construct a board from an n-by-n array of blocks
     public Board(int[][] blocks) {
         this.blocks = blocks.clone();
+        this.cache = new ConcurrentHashMap<>();
     }
 
     // (where blocks[i][j] = block in row i, column j)
@@ -22,20 +23,24 @@ public class Board {
 
     // number of blocks out of place
     public int hamming() {
-        if (hamming == null) {
-            hamming = calcHamming();
+        if (cache.containsKey("hamming")) {
+            return cache.get("hamming");
+        } else {
+            int result = calcHamming();
+            cache.put("hamming", result) ;
+            return result;
         }
-
-        return hamming;
     }
 
     // sum of Manhattan distances between blocks and goal
     public int manhattan() {
-        if (manhattan == null) {
-            manhattan = calcManhattan();
+        if (cache.containsKey("manhattan")) {
+            return cache.get("manhattan");
+        } else {
+            int result = calcManhattan();
+            cache.put("manhattan", result) ;
+            return result;
         }
-
-        return manhattan;
     }
 
     // is this board the goal board?
@@ -50,7 +55,7 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y) {
-        return y instanceof Board && Arrays.equals(((Board) y).blocks, blocks);
+        return y instanceof Board && Arrays.deepEquals(((Board) y).blocks, blocks);
     }
 
     // all neighboring boards
