@@ -44,7 +44,7 @@ public class Board {
 
     // a board that is obtained by exchanging any pair of blocks
     public Board twin() {
-        return new Board(new int[0][0]);
+        return new Board(copyAndSwap(0, 0, 0, 1));
     }
 
     // does this board equal y?
