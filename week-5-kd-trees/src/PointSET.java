@@ -1,7 +1,4 @@
-import edu.princeton.cs.algs4.Point2D;
-import edu.princeton.cs.algs4.RectHV;
-import edu.princeton.cs.algs4.SET;
-import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.*;
 
 /**
  * Created by tjohnell on 7/16/17.
@@ -21,7 +18,7 @@ public class PointSET {
 
     // number of points in the set
     public int size() {
-        return 0;
+        return set.size();
     }
 
     // add the point to the set (if it is not already in the set)
@@ -36,6 +33,10 @@ public class PointSET {
 
     // draw all points to standard draw
     public void draw() {
+        StdDraw.rectangle(0.5, 0.5, 0.5, 0.5);
+        for(Point2D point : set) {
+            StdDraw.point(point.x(), point.y());
+        }
     }
 
     // all points that are inside the rectangle
@@ -44,7 +45,14 @@ public class PointSET {
             throw new java.lang.IllegalArgumentException();
         }
 
-        return new Stack<Point2D>();
+        Stack<Point2D> points = new Stack<Point2D>();
+        for (Point2D point : set) {
+            if (rect.contains(point)) {
+                points.push(point);
+            }
+        }
+
+        return points;
     }
 
     // a nearest neighbor in the set to point p; null if the set is empty
@@ -53,10 +61,16 @@ public class PointSET {
             throw new java.lang.IllegalArgumentException();
         }
 
-        return new Point2D(0.0, 0.0);
-    }
+        Point2D nearest = null;
+        double smallestDistance = Double.POSITIVE_INFINITY;
+        for (Point2D point : set) {
+            double curDistance = p.distanceTo(point);
+            if (nearest == null || curDistance < smallestDistance) {
+                nearest = point;
+                smallestDistance = curDistance;
+            }
+        }
 
-    // unit testing of the methods (optional)
-    public static void main(String[] args) {
+        return nearest;
     }
 }
