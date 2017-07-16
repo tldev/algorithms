@@ -9,6 +9,11 @@ public class KdTree {
     // construct an empty set of points
     public KdTree() {
         set = new SET<Point2D>();
+        Node node = new Node();
+    }
+
+    private class Node {
+
     }
 
     // is the set empty?
