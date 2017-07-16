@@ -1,18 +1,22 @@
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
+import edu.princeton.cs.algs4.SET;
 import edu.princeton.cs.algs4.Stack;
 
 /**
  * Created by tjohnell on 7/16/17.
  */
 public class PointSET {
+    private SET<Point2D> set;
+
     // construct an empty set of points
     public PointSET() {
+        set = new SET<Point2D>();
     }
 
     // is the set empty?
     public boolean isEmpty() {
-        return false;
+        return set.isEmpty();
     }
 
     // number of points in the set
@@ -22,12 +26,12 @@ public class PointSET {
 
     // add the point to the set (if it is not already in the set)
     public void insert(Point2D p) {
-
+        set.add(p);
     }
 
     // does the set contain point p?
     public boolean contains(Point2D p) {
-        return false;
+        return set.contains(p);
     }
 
     // draw all points to standard draw
