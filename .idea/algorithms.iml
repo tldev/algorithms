@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/sorting/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/week-3-pattern-recognition/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/week-4-8-puzzle/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/week-5-kd-trees/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
