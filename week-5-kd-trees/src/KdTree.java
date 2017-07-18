@@ -70,33 +70,25 @@ public class KdTree {
         if (h == null) return;
 
 
+        if (rect.contains(h.point)) {
+            q.enqueue(h.point);
+        }
+
         if (level % 2 == 0) {
-            if (Double.compare(h.point.x(), rect.xmin()) <= 0) {
-                if (rect.contains(h.point)) {
-                    q.enqueue(h.point);
-                }
+            if (Double.compare(rect.xmax(), h.point.x()) >= 0) {
                 rangeAndEnqueue(h.right, rect, level + 1, q);
             }
 
-            if(Double.compare(h.point.x(), rect.xmax()) >= 0) {
-                if (rect.contains(h.point)) {
-                    q.enqueue(h.point);
-                }
+            if (Double.compare(rect.xmin(), h.point.x()) < 0) {
                 rangeAndEnqueue(h.left, rect, level + 1, q);
             }
         } else {
-            if (Double.compare(h.point.y(), rect.ymin()) <= 0) {
-                if (rect.contains(h.point)) {
-                    q.enqueue(h.point);
-                }
+            if (Double.compare(rect.ymax(), h.point.y()) >= 0) {
                 rangeAndEnqueue(h.right, rect, level + 1, q);
             }
 
-            if (Double.compare(h.point.y(), rect.ymax()) >= 0) {
-                if (rect.contains(h.point)) {
-                    q.enqueue(h.point);
-                }
-                rangeAndEnqueue(h.right, rect, level + 1, q);
+            if (Double.compare(rect.ymin(), h.point.y()) < 0) {
+                rangeAndEnqueue(h.left, rect, level + 1, q);
             }
         }
     }
@@ -124,13 +116,13 @@ public class KdTree {
     }
 
     private Node put(Node h, Point2D point, int level) {
-        if (h == null)  {
+        if (h == null) {
             size++;
             return new Node(point, level);
         }
         int cmp = level % 2 == 0 ? Double.compare(h.point.x(), point.x()) : Double.compare(h.point.y(), point.y());
 
-        if (cmp < 0) h.left = put(h.left, point, level + 1);
+        if (cmp > 0) h.left = put(h.left, point, level + 1);
         else if (h.point.compareTo(point) != 0) h.right = put(h.right, point, level + 1);
 
         return h;
@@ -145,5 +137,4 @@ public class KdTree {
         else
             return h.point.compareTo(point) == 0 || _contains(h.right, point, level + 1);
     }
-}
 }
