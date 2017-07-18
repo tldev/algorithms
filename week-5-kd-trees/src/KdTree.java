@@ -134,7 +134,7 @@ public class KdTree {
 
     private boolean _contains(Node h, Point2D point, int level) {
         if (h == null) return false;
-        int cmp = level % 2 == 0 ? Double.compare(h.point.x(), point.x()) : Double.compare(h.point.y(), point.y());
+        int cmp = level % 2 == 0 ? Double.compare(point.x(), h.point.x()) : Double.compare(point.y(), h.point.y());
 
         if (cmp < 0)
             return _contains(h.left, point, level + 1);
