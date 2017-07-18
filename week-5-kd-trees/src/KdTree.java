@@ -24,11 +24,15 @@ public class KdTree {
 
     // add the point to the set (if it is not already in the set)
     public void insert(Point2D p) {
+        if (p == null) throw new IllegalArgumentException();
+
         root = put(root, p, 0);
     }
 
     // does the set contain point p?
     public boolean contains(Point2D p) {
+        if (p == null) throw new IllegalArgumentException();
+
         return _contains(root, p, 0);
     }
 
@@ -129,7 +133,7 @@ public class KdTree {
     }
 
     private boolean _contains(Node h, Point2D point, int level) {
-        if (point == null) return false;
+        if (h == null) return false;
         int cmp = level % 2 == 0 ? Double.compare(h.point.x(), point.x()) : Double.compare(h.point.y(), point.y());
 
         if (cmp < 0)
