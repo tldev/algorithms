@@ -104,7 +104,42 @@ public class KdTree {
             throw new java.lang.IllegalArgumentException();
         }
 
-        return root.point;
+        return _nearest(root, p, Double.POSITIVE_INFINITY, root.point, 0);
+    }
+
+    private Point2D _nearest(Node n, Point2D q, double minDistance, Point2D minPoint, int level) {
+        if (n == null) {
+            return minPoint;
+        }
+
+        double dis = n.point.distanceTo(q);
+        if (dis < minDistance) {
+            minDistance = dis;
+            minPoint = n.point;
+        }
+
+        if (level % 2 == 0) {
+
+            if (q.x() < n.point.x()) {
+                minPoint = _nearest(n.left, q, minDistance, minPoint, level + 1);
+                minDistance = q.distanceTo(minPoint);
+            }
+
+            if (Double.compare(n.point.x() - q.x(), minDistance) <= 0) {
+                minPoint = _nearest(n.right, q, minDistance, minPoint, level + 1);
+            }
+        } else {
+            if (q.y() < n.point.y()) {
+                minPoint = _nearest(n.left, q, minDistance, minPoint, level + 1);
+                minDistance = q.distanceTo(minPoint);
+            }
+
+            if (Double.compare(n.point.y() - q.y(), minDistance) <= 0) {
+                minPoint = _nearest(n.right, q, minDistance, minPoint, level + 1);
+            }
+        }
+
+        return minPoint;
     }
 
 
