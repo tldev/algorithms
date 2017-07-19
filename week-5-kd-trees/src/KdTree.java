@@ -104,6 +104,7 @@ public class KdTree {
             throw new java.lang.IllegalArgumentException();
         }
 
+        if(root == null) return null;
         return _nearest(root, p, Double.POSITIVE_INFINITY, root.point, 0);
     }
 
