@@ -113,7 +113,7 @@ public class KdTree {
             return minPoint;
         }
 
-        double dis = n.point.distanceTo(q);
+        double dis = n.point.distanceSquaredTo(q);
         if (dis < minDistance) {
             minDistance = dis;
             minPoint = n.point;
@@ -122,32 +122,32 @@ public class KdTree {
         if (level % 2 == 0) {
             if (q.x() < n.point.x()) {
                 minPoint = _nearest(n.left, q, minDistance, minPoint, level + 1);
-                minDistance = q.distanceTo(minPoint);
+                minDistance = q.distanceSquaredTo(minPoint);
 
-                if (Double.compare(n.point.x() - q.x(), minDistance) <= 0) {
+                if (Double.compare(Math.pow(n.point.x() - q.x(), 2), minDistance) <= 0) {
                     minPoint = _nearest(n.right, q, minDistance, minPoint, level + 1);
                 }
             } else {
                 minPoint = _nearest(n.right, q, minDistance, minPoint, level + 1);
-                minDistance = q.distanceTo(minPoint);
+                minDistance = q.distanceSquaredTo(minPoint);
 
-                if (Double.compare(q.x() - n.point.x(), minDistance) <= 0) {
+                if (Double.compare(Math.pow(q.x() - n.point.x(), 2), minDistance) <= 0) {
                     minPoint = _nearest(n.left, q, minDistance, minPoint, level + 1);
                 }
             }
         } else {
             if (q.y() < n.point.y()) {
                 minPoint = _nearest(n.left, q, minDistance, minPoint, level + 1);
-                minDistance = q.distanceTo(minPoint);
+                minDistance = q.distanceSquaredTo(minPoint);
 
-                if (Double.compare(n.point.y() - q.y(), minDistance) <= 0) {
+                if (Double.compare(Math.pow(n.point.y() - q.y(), 2), minDistance) <= 0) {
                     minPoint = _nearest(n.right, q, minDistance, minPoint, level + 1);
                 }
             } else {
                 minPoint = _nearest(n.right, q, minDistance, minPoint, level + 1);
-                minDistance = q.distanceTo(minPoint);
+                minDistance = q.distanceSquaredTo(minPoint);
 
-                if (Double.compare(n.point.y() - q.y(), minDistance) <= 0) {
+                if (Double.compare(Math.pow(n.point.y() - q.y(),2), minDistance) <= 0) {
                     minPoint = _nearest(n.left, q, minDistance, minPoint, level + 1);
                 }
             }
