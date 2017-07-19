@@ -119,23 +119,36 @@ public class KdTree {
         }
 
         if (level % 2 == 0) {
-
             if (q.x() < n.point.x()) {
                 minPoint = _nearest(n.left, q, minDistance, minPoint, level + 1);
                 minDistance = q.distanceTo(minPoint);
-            }
 
-            if (Double.compare(n.point.x() - q.x(), minDistance) <= 0) {
+                if (Double.compare(n.point.x() - q.x(), minDistance) <= 0) {
+                    minPoint = _nearest(n.right, q, minDistance, minPoint, level + 1);
+                }
+            } else {
                 minPoint = _nearest(n.right, q, minDistance, minPoint, level + 1);
+                minDistance = q.distanceTo(minPoint);
+
+                if (Double.compare(q.x() - n.point.x(), minDistance) <= 0) {
+                    minPoint = _nearest(n.left, q, minDistance, minPoint, level + 1);
+                }
             }
         } else {
             if (q.y() < n.point.y()) {
                 minPoint = _nearest(n.left, q, minDistance, minPoint, level + 1);
                 minDistance = q.distanceTo(minPoint);
-            }
 
-            if (Double.compare(n.point.y() - q.y(), minDistance) <= 0) {
+                if (Double.compare(n.point.y() - q.y(), minDistance) <= 0) {
+                    minPoint = _nearest(n.right, q, minDistance, minPoint, level + 1);
+                }
+            } else {
                 minPoint = _nearest(n.right, q, minDistance, minPoint, level + 1);
+                minDistance = q.distanceTo(minPoint);
+
+                if (Double.compare(n.point.y() - q.y(), minDistance) <= 0) {
+                    minPoint = _nearest(n.left, q, minDistance, minPoint, level + 1);
+                }
             }
         }
 
